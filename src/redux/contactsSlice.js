@@ -1,44 +1,86 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { fetchContacts, addContact } from './operations';
 
 const contactsInitialState = {
-  contacts: [
-    { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-    { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-    { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-    { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-  ],
-  // filter: '',
+  items: [],
+  isLoading: false,
+  error: null,
 };
 
-export const contactSlice = createSlice({
+export const contactsSlice = createSlice({
   name: 'contacts',
   initialState: contactsInitialState,
-  reducers: {
-    addContact: {
-      reducer(state, action) {
-        state.contacts.push(action.payload);
-      },
-    },
+  // reducers: {
+  //   addContact: {
+  //     reducer(state, action) {
+  //       state.items.push(action.payload);
+  //     },
+  //   },
 
-    deleteContact: {
-      reducer(state, action) {
-        const index = state.contacts.findIndex(
-          contact => contact.id === action.payload
-        );
-        state.contacts.splice(index, 1);
-      },
-    },
+  //   deleteContact: {
+  //     reducer(state, action) {
+  //       const index = state.items.findIndex(
+  //         contact => contact.id === action.payload
+  //       );
+  //       state.items.splice(index, 1);
+  //     },
+  //   },
 
-    // findContact: {
-    //   reducer(state, action) {
-    //     state.filter = action.payload;
-    //   },
-    // },
+  // // Виконається в момент старту HTTP-запиту
+  // fetchingInProgress(state) {
+  //   state.isLoading = true;
+  // },
+  // // Виконається якщо HTTP-запит завершився успішно
+  // fetchingSuccess(state, action) {
+  //   state.isLoading = false;
+  //   state.error = null;
+  //   state.items = action.payload;
+  // },
+  // // Виконається якщо HTTP-запит завершився з помилкою
+  // fetchingError(state, action) {
+  //   state.isLoading = false;
+  //   state.error = action.payload;
+  // },
+
+  // findContact: {
+  //   reducer(state, action) {
+  //     state.filter = action.payload;
+  //   },
+  // },
+  // },
+  extraReducers: {
+    [fetchContacts.pending](state) {
+      state.isLoading = true;
+    },
+    [fetchContacts.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
+      state.items = action.payload;
+    },
+    [fetchContacts.rejected](state, action) {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+    [addContact.pending](state) {
+      state.isLoading = true;
+    },
+    [addContact.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
+      state.items.push(action.payload);
+    },
+    [addContact.rejected](state, action) {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
   },
 });
 
-export const {
-  addContact,
-  deleteContact,
-  // findContact
-} = contactSlice.actions;
+// export const {
+//   addContact,
+//   deleteContact,
+//   // fetchingInProgress,
+//   // fetchingSuccess,
+//   // fetchingError,
+//   // findContact
+// } = contactSlice.actions;

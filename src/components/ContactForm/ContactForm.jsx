@@ -1,8 +1,9 @@
 import { nanoid } from '@reduxjs/toolkit';
 import { Button, Form, Input, Label } from './ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/contactsSlice';
+// import { addContact } from 'redux/contactsSlice';
 import { getContacts } from 'redux/selectors';
+import { addContact } from 'redux/operations';
 
 const ContactForm = () => {
   const dispatch = useDispatch();
@@ -17,21 +18,20 @@ const ContactForm = () => {
     const formName = form.elements.name.value;
     const formNumber = form.elements.number.value;
 
-    const existingName = contacts.find(({ name }) => name === formName);
-    const existingNumber = contacts.find(({ number }) => number === formNumber);
+    // const existingName = contacts.find(({ name }) => name === formName);
+    // const existingNumber = contacts.find(({ number }) => number === formNumber);
 
-    if (existingName) {
-      alert(`${formName} is already in contacts`);
-      return;
-    } else if (existingNumber) {
-      alert(`${formNumber} is already in contacts`);
-      return;
-    }
+    // if (existingName) {
+    //   alert(`${formName} is already in contacts`);
+    //   return;
+    // } else if (existingNumber) {
+    //   alert(`${formNumber} is already in contacts`);
+    //   return;
+    // }
 
     const user = {
-      id: nanoid(5),
       name: formName,
-      number: formNumber,
+      phone: formNumber,
     };
 
     dispatch(addContact(user));
