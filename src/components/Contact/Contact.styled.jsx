@@ -1,8 +1,11 @@
 import styled from '@emotion/styled';
 
-export const Text = styled.span``;
+export const Text = styled.span`
+  display: block;
+`;
 
 export const Button = styled.button`
+  display: block;
   margin-left: auto;
   max-width: 100px;
   padding: 4px 12px;

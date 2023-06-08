@@ -1,22 +1,29 @@
 import Contact from 'components/Contact/Contact';
 import { List, ListItem } from './ContactList.styled';
-import { useDispatch, useSelector } from 'react-redux';
-// import { deleteContact } from 'redux/operations';
-// import { deleteContact } from 'redux/contactsSlice';
-import { getActive, getContacts, getFilter } from 'redux/selectors';
+import { useSelector } from 'react-redux';
+import { getContacts, getFilter } from 'redux/selectors';
 
 const ContactList = () => {
   const { items } = useSelector(getContacts);
 
   const filterValue = useSelector(getFilter);
-  // const isActive = useSelector(getActive);
-  // const dispatch = useDispatch();
-  // const handleDelete = () => dispatch(deleteContact(items.id));
 
   const getVisibleItems = () => {
-    return items?.filter(el =>
-      el.name.toLocaleLowerCase().includes(filterValue.toLocaleLowerCase())
-    );
+    return items
+      ?.filter(el =>
+        el.name.toLocaleLowerCase().includes(filterValue.toLocaleLowerCase())
+      )
+      .sort((a, b) => {
+        const nameA = a.name.toUpperCase();
+        const nameB = b.name.toUpperCase();
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        return 0;
+      });
   };
   const visibleList = getVisibleItems();
 
